@@ -1,4 +1,4 @@
-name: flutterust
+name: ic_flutterust
 description: A new Flutter project.
 version: 1.0.0+1
 
@@ -9,10 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.2
-  adder:
-    path: packages/adder_ffi
-  scrap:
-    path: packages/scrap_ffi
+  ic_ffi:
+    path: packages/ic_ffi
 
 dev_dependencies:
   flutter_test:

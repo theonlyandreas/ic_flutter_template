@@ -1,0 +1,22 @@
+[package]
+name = "ic-ffi"
+version = "0.1.0"
+authors = ["Andreas Koch <andreaskoch2222@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "ic_ffi"
+crate-type = ["rlib"]
+
+[dependencies]
+ic = { path = "../ic" }
+tokio = { version = "0.2", features = ["rt-threaded"] }
+ffi_helpers = "0.2"
+allo-isolate = "0.1.6"
+lazy_static = "1.4"
+
+[build-dependencies]
+cbindgen = "0.14.3"
+dart-bindgen = "0.1.7"

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:adder/adder.dart';
-import 'package:scrap/scrap.dart';
+import 'package:ic_ffi/ic.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,13 +25,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  Scrap scrap = Scrap();
-  Adder adder = Adder();
+  IC ic = IC();
 
   @override
   void initState() {
     super.initState();
-    Scrap.setup();
+    IC.setup();
   }
 
   @override
@@ -66,22 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
     );
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter = adder.add(_counter, 1);
-    });
-  }
-
   void _showWebPage() async {
-    final html = await scrap.loadPage('https://www.rust-lang.org/');
+    final html = await ic.loadPage('https://www.rust-lang.org/');
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
