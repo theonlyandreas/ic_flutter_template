@@ -1,25 +1,11 @@
-# Flutterust
+# Flutter template to call the Internet Computer
 
-Flutter + Rust = :heart:
+Flutter + Rust = Access to the Internet Computer = :heart:
 
-![Lints](https://github.com/shekohex/flutterust/workflows/Lints/badge.svg)
-![CI (Android, iOS)](<https://github.com/shekohex/flutterust/workflows/CI%20(Android,%20iOS)/badge.svg>)
+This project is forked from [flutterust](https://github.com/shekohex/flutterust) and its method of executing Rust code from a Flutter application is applied to access the Internet Computer. 
 
-Using Rust libs from Flutter using [`dart:ffi`](https://dart.dev/guides/libraries/c-interop)
+For further documentation on how this template works with [Foreign Function Interfaces](https://en.wikipedia.org/wiki/Foreign_function_interface), see [Rust and Dart: the async story](https://dev.to/sunshine-chain/rust-and-dart-the-async-story-3adk).
 
-It provides out-of-the box support for cross-compiling native Rust code for all available iOS and Android architectures and call it from plain Dart using [Foreign Function Interface](https://en.wikipedia.org/wiki/Foreign_function_interface).
-
-This template provides first class FFI support, **the clean way**.
-
-- No Swift/Kotlin wrappers
-- No message passing
-- No async/await on Dart
-- Write once, use everywhere
-- No garbage collection
-- Mostly automated development
-- No need to export `aar` bundles or `.framework`'s
-
-* If you are lookin on how to use this with async Rust, see [scrap](native/scrap-ffi/src/lib.rs) example (simple web scrapper).
 
 ## Project Structure
 
@@ -29,10 +15,10 @@ This template provides first class FFI support, **the clean way**.
 ├── ios
 ├── lib                     <- The Flutter App Code
 ├── native                  <- Containes all the Rust Code
-│   ├── adder
-│   └── adder-ffi
+│   ├── ic
+│   └── ic-ffi
 ├── packages                <- Containes all the Dart Packages that bind to the Rust Code
-│   └── adder
+│   └── ic_ffi
 ├── target                  <- The compiled rust code for every arch
 │   ├── aarch64-apple-ios
 │   ├── aarch64-linux-android
@@ -47,11 +33,13 @@ This template provides first class FFI support, **the clean way**.
 
 ## Setup and Tools
 
-1. Add Rust build targets
+1. Install Rust and add build targets
 
 #### For Android
 
 ```sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
 ```
 
@@ -64,13 +52,14 @@ rustup target add aarch64-apple-ios x86_64-apple-ios
 2. Cargo Plugins
 
 ```sh
-cargo install cargo-make
+cargo install --force cargo-make
 ```
 
 we also use [`dart-bindgen`](https://github.com/sunshine-protocol/dart-bindgen) which requires LLVM/Clang. Install LLVM (10+) in the following way:
 
 #### ubuntu/linux
 1. Install libclangdev - `sudo apt-get install libclang-dev`.
+2. Install openssl - `sudo apt-get install pkg-config libssl-dev`.
 
 #### Windows
 1. Install Visual Studio with C++ development support.
@@ -80,20 +69,6 @@ we also use [`dart-bindgen`](https://github.com/sunshine-protocol/dart-bindgen) 
 1. Install Xcode.
 2. Install LLVM - `brew install llvm`.
 
-
-## Build and Test
-
-In the Root of the project simply run:
-
-```sh
-cargo make
-```
-
-Then run flutter app normally
-
-```
-flutter run
-```
 
 ## How it works?
 
@@ -139,6 +114,22 @@ packages/{PACKAGE_NAME}/android/src/main
 Make sure that the Android NDK is installed (From SDK Manager in Android Studio), also ensure that the env variable `$ANDROID_NDK_HOME` points to the NDK base folder
 and after that, the build script build our rust crate for all of these targets using [`cargo-ndk`](https://github.com/bbqsrc/cargo-ndk)
 and symbol link our rust lib to the right place, and it just works :)
+
+
+## Build and Test
+
+In the Root of the project simply run:
+
+```sh
+cargo make
+```
+
+Then run flutter app without null safety due to Dart's Isolate package
+
+```
+flutter run --no-sound-null-safety
+```
+
 
 ## See also
 
