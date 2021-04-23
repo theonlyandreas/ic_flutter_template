@@ -56,6 +56,26 @@ typedef _load_page_Dart = int Function(
   Pointer<ffi.Utf8> url,
 );
 
+/// C function `query_call`.
+int query_call(
+  int port,
+  Pointer<ffi.Utf8> canister_id,
+  Pointer<ffi.Utf8> method_name,
+) {
+  return _query_call(port, canister_id, method_name);
+}
+final _query_call_Dart _query_call = _dl.lookupFunction<_query_call_C, _query_call_Dart>('query_call');
+typedef _query_call_C = Int32 Function(
+  Int64 port,
+  Pointer<ffi.Utf8> canister_id,
+  Pointer<ffi.Utf8> method_name,
+);
+typedef _query_call_Dart = int Function(
+  int port,
+  Pointer<ffi.Utf8> canister_id,
+  Pointer<ffi.Utf8> method_name,
+);
+
 /// Binding to `allo-isolate` crate
 void store_dart_post_cobject(
   Pointer<NativeFunction<Int8 Function(Int64, Pointer<Dart_CObject>)>> ptr,

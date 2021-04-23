@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ic_ffi/ic.dart';
 
@@ -43,14 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            const SizedBox(height: 100),
             RaisedButton(
               color: Colors.greenAccent,
               child: Text(
@@ -60,9 +54,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               onPressed: _showWebPage,
-            )
+            ),
+            const SizedBox(height: 10),
+            RaisedButton(
+              color: Colors.purple[900],
+              child: Text(
+                'Call Internet Computer',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: _callIC,
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _callIC() async {
+    final containerId = "gi6rv-4iaaa-aaaab-qbcrq-cai";
+    final methodName = "greet";
+    final response = await ic.queryCall(containerId, methodName);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      builder: (context) => SingleChildScrollView(
+        child: response.isNotEmpty ? Text(response) : Text("No response.."),
       ),
     );
   }

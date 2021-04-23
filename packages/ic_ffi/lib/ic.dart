@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:isolate/ports.dart';
@@ -25,18 +26,21 @@ class IC {
     return completer.future;
   }
 
-  // Future<String> queryCall(String container_id, String method_name) {
-  //   final completer = Completer<String>();
-  //   final sendPort = singleCompletePort(completer);
-  //   final res = native.query_call(
-  //     container_id,
-  //     method_name,
-  //   );
-  //   if (res != 1) {
-  //     _throwError();
-  //   }
-  //   return completer.future;
-  // }
+  Future<String> queryCall(String containerId, String methodName) {
+    var containerIdPointer = containerId.toNativeUtf8();
+    var methodNamePointer = methodName.toNativeUtf8();
+    final completer = Completer<String>();
+    final sendPort = singleCompletePort(completer);
+    final res = native.query_call(
+      sendPort.nativePort,
+      containerIdPointer,
+      methodNamePointer,
+    );
+    if (res != 1) {
+      _throwError();
+    }
+    return completer.future;
+  }
 
   void _throwError() {
     final length = native.last_error_length();

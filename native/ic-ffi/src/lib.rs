@@ -70,14 +70,16 @@ pub extern "C" fn load_page(port: i64, url: *const raw::c_char) -> i32 {
     1
 }
 
-// #[no_mangle]
-// pub extern "C" fn query_call(
-//     canister_id: *const raw::c_char,
-//     method_name: *const raw::c_char,
-// ) -> i32 {
-//     let rt = runtime!();
-//     let url = cstr!(url);
-//     let t = Isolate::new(port).task(ic::query_call(canister_id, method_name));
-//     rt.spawn(t);
-//     1
-// }
+#[no_mangle]
+pub extern "C" fn query_call(
+    port: i64,
+    canister_id: *const raw::c_char,
+    method_name: *const raw::c_char,
+) -> i32 {
+    let rt = runtime!();
+    let canister_id = cstr!(canister_id);
+    let method_name = cstr!(method_name);
+    let t = Isolate::new(port).task(ic::query_call(canister_id, method_name));
+    rt.spawn(t);
+    1
+}

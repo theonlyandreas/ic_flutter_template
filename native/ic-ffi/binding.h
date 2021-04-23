@@ -13,6 +13,8 @@ int32_t last_error_length(void);
 
 int32_t load_page(int64_t port, const char *url);
 
+int32_t query_call(int64_t port, const char *canister_id, const char *method_name);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
